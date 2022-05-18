@@ -1,5 +1,4 @@
 class ProductionsController < ApplicationController
-    rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessable_entity_response
 
     # GET "/productions"
     def index 
@@ -23,34 +22,30 @@ class ProductionsController < ApplicationController
     # PUT "/productions/:id"
     def update
         # Find Production via Params (id)
+        production = Production.find(params[:id])
 
-        # If Found, Render Production With Created Status
+        # Update Production with production_params
+        production.update!(production_params)
 
-            # Update Production with production_params
-
-            # If Errors, Raise Exception + Render Errors in JSON Format w/ Unprocessable Entity Status
-
-        # If Not Found, Raise Exception + Render Errors in JSON Format w/ Not Found Status
+        # Render Production with Created Status
+        render json: production, status: :created
     end
 
     # DELETE "/productions/:id"
     def destroy
         # Find Production via Params (id)
+        production = Production.find(params[:id])
 
         # If Found, Destroy Production
+        production.destroy
 
-            # Render 204 Status Code (No Content) / Send No Content in Response 
-
-        # If Not Found, Raise Exception + Render Errors in JSON Format w/ Not Found Status
+        # Way of Confirming Deletion
+        head :no_content
     end
 
     private
 
     def production_params
         params.permit(:title, :genre, :description, :budget, :image, :director, :ongoing)
-    end
-
-    def render_unprocessable_entity_response(invalid)
-        render json: { errors: invalid.record.errors }, status: :unprocessable_entity
     end
 end

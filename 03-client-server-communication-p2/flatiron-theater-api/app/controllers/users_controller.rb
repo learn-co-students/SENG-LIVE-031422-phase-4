@@ -1,5 +1,4 @@
 class UsersController < ApplicationController
-    rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessable_entity_response
 
     # GET "/users"
     def index 
@@ -23,34 +22,26 @@ class UsersController < ApplicationController
     # PUT "/users/:id"
     def update
         # Find User via Params (id)
+        user = User.find(params[:id])
 
-        # If Found, Render User With Created Status
+        user.update!(user_params)
 
-            # Update User with user_params
-
-            # If Errors, Raise Exception + Render Errors in JSON Format w/ Unprocessable Entity Status
-
-        # If Not Found, Raise Exception + Render Errors in JSON Format w/ Not Found Status
+        render json: user, status: :created
     end
 
     # DELETE "/users/:id"
     def destroy
         # Find User via Params (id)
+        user = User.find(params[:id])
 
-        # If Found, Destroy User
+        user.destroy
 
-            # Render 204 Status Code (No Content) / Send No Content in Response 
-
-        # If Not Found, Raise Exception + Render Errors in JSON Format w/ Not Found Status
+        head :no_content
     end
 
     private
 
     def user_params
         params.permit(:name, :admin)
-    end
-
-    def render_unprocessable_entity_response(invalid)
-        render json: { errors: invalid.record.errors }, status: :unprocessable_entity
     end
 end

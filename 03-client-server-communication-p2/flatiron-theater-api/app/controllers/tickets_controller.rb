@@ -1,6 +1,4 @@
 class TicketsController < ApplicationController
-    rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessable_entity_response
-
 
     # GET "/tickets"
     def index 
@@ -24,34 +22,26 @@ class TicketsController < ApplicationController
     # PUT "/tickets/:id"
     def update
         # Find Ticket via Params (id)
+        ticket = Ticket.find(params[:id])
 
-        # If Found, Render Ticket With Created Status
+        ticket.update!(ticket_params)
 
-            # Update Ticket with ticket_params
-
-            # If Errors, Raise Exception + Render Errors in JSON Format w/ Unprocessable Entity Status
-
-        # If Not Found, Raise Exception + Render Errors in JSON Format w/ Not Found Status
+        render json: ticket, status: :created
     end
 
     # DELETE "/tickets/:id"
     def destroy
         # Find Ticket via Params (id)
+        ticket = Ticket.find(params[:id])
 
-        # If Found, Destroy Ticket
+        ticket.destroy
 
-            # Render 204 Status Code (No Content) / Send No Content in Response 
-
-        # If Not Found, Raise Exception + Render Errors in JSON Format w/ Not Found Status
+        head :no_content
     end
 
     private
 
     def ticket_params
         params.permit(:price, :user_id, :production_id)
-    end
-
-    def render_unprocessable_entity_response(invalid)
-        render json: { errors: invalid.record.errors }, status: :unprocessable_entity
     end
 end

@@ -21,6 +21,9 @@ p2 = Production.create(
 
 # Initialize + Save One Production Role
 ProductionRole.create(role: 'Hamlet', understudy: true, production: p1)
+ProductionRole.create(role: 'A', understudy: true, production: p1)
+ProductionRole.create(role: 'B', understudy: true, production: p2)
+ProductionRole.create(role: 'C', understudy: true, production: p2)
 
 # Initialize + Save Two Users
 u1 = User.create(name: 'Louis', email: 'louis@flatironschool.com', admin: true)
