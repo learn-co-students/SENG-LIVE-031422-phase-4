@@ -5,7 +5,7 @@
 - [ ] Implement sessions to give users specific access rights
 
 ### Cookies and Sessions  
-Because HTTP is stateless, we can utilize cookies and sessions to hold important user information that should persist through requests.  
+Because HTTP is stateless, we can utilize cookies and sessions to hold important user information that should persist through requests.
 
 Cookies will hold information client-side while sessions will hold information server side. 
 
